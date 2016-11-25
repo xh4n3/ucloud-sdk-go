@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/ucloud/ucloud-sdk-go/ucloud"
-	"github.com/ucloud/ucloud-sdk-go/ucloud/auth"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud/auth"
 )
 
 type CreateUHostInstance struct {

@@ -3,8 +3,8 @@ package unet
 import (
 	"net/http"
 
-	"github.com/ucloud/ucloud-sdk-go/ucloud"
-	"github.com/ucloud/ucloud-sdk-go/ucloud/service"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud/service"
 )
 
 type UNet struct {

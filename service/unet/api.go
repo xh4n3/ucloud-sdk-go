@@ -1,7 +1,7 @@
 package unet
 
 import (
-	"github.com/ucloud/ucloud-sdk-go/ucloud"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud"
 )
 
 type AllocateEIPParams struct {
@@ -33,7 +33,7 @@ type EIPSet struct {
 	Tag           string
 	Remark        string
 	EIPAddr       *[]EIPAddr
-	Resource      *[]ucloud.Resource
+	Resource      *ucloud.Resource
 }
 
 type AllocateEIPResponse struct {
@@ -62,8 +62,9 @@ type DescribeEIPParams struct {
 type DescribeEIPResponse struct {
 	ucloud.CommonResponse
 
-	TotalCount int
-	EIPSet     *[]EIPSet
+	TotalCount     int
+	TotalBandwidth int
+	EIPSet         *[]EIPSet
 }
 
 func (u *UNet) DescribeEIP(params *DescribeEIPParams) (*DescribeEIPResponse, error) {
@@ -492,13 +493,18 @@ type DescribeShareBandwidthParams struct {
 type DescribeShareBandwidthResponse struct {
 	ucloud.CommonResponse
 
-	IsShare          bool
+	TotalCount int
+	DataSet    *[]UnetShareBandwidthSet
+}
+
+type UnetShareBandwidthSet struct {
+	Name             string
 	ShareBandwidth   int
 	ShareBandwidthId string
 	ChargeType       string
-	CreateTime       int
-	ExpireTime       int
-	PurchaseValue    int
+	CreateTime       int64
+	ExpireTime       int64
+	EIPSet           *[]EIPSet
 }
 
 func (u *UNet) DescribeShareBandwidth(params *DescribeShareBandwidthParams) (*DescribeShareBandwidthResponse, error) {
@@ -511,8 +517,9 @@ func (u *UNet) DescribeShareBandwidth(params *DescribeShareBandwidthParams) (*De
 type ResizeShareBandwidthParams struct {
 	ucloud.CommonRequest
 
-	Region         string
-	ShareBandwidth int
+	Region           string
+	ShareBandwidth   int
+	ShareBandwidthId string
 }
 
 type ResizeShareBandwidthResponse struct {
@@ -529,6 +536,7 @@ func (u *UNet) ResizeShareBandwidth(params *ResizeShareBandwidthParams) (*Resize
 type DescribeBandwidthUsageParams struct {
 	ucloud.CommonRequest
 
+	Region string
 	OffSet int
 	Limit  int
 }
@@ -536,11 +544,17 @@ type DescribeBandwidthUsageParams struct {
 type DescribeBandwidthUsageResponse struct {
 	ucloud.CommonResponse
 
-	EIPSet *[]EIPSet
+	TotalCount int
+	EIPSet     *[]UnetBandwidthUsageEIPSet
 }
 
-func (u *UNet) DescribeBandwidthUsage(params *ResizeShareBandwidthParams) (*ResizeShareBandwidthResponse, error) {
-	response := &ResizeShareBandwidthResponse{}
+type UnetBandwidthUsageEIPSet struct {
+	EIPId        string
+	CurBandwidth float32
+}
+
+func (u *UNet) DescribeBandwidthUsage(params *DescribeBandwidthUsageParams) (*DescribeBandwidthUsageResponse, error) {
+	response := &DescribeBandwidthUsageResponse{}
 	err := u.DoRequest("DescribeBandwidthUsage", params, response)
 
 	return response, err

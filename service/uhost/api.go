@@ -1,7 +1,7 @@
 package uhost
 
 import (
-	"github.com/ucloud/ucloud-sdk-go/ucloud"
+	"github.com/xh4n3/ucloud-sdk-go/ucloud"
 )
 
 // CreateUHostInstance will create instances
